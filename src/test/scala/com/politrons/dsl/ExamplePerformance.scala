@@ -3,7 +3,8 @@ package com.politrons.dsl
 /**
   * Created by pabloperezgarcia on 18/11/2017.
   */
-class ExamplePerformance extends PerformanceDSL{
+class ExamplePerformance extends PerformanceDSL {
 
-  Performance.get
+  Get.to("http://www.google.com").~> ::
+
 }

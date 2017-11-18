@@ -1,5 +1,8 @@
 package com.politrons.dsl
 
+import com.politrons.com.politrons.scene.CustomScene
+import io.gatling.core.structure.ScenarioBuilder
+
 import scalaz.Free
 
 /**
@@ -17,6 +20,21 @@ trait Algebras {
 
   type ActionMonad[A] = Free[Action, A]
 
+  type SceneType = (String, CustomScene)
+
   case class _Get() extends Action[Any]
+
+  case class _Post() extends Action[Any]
+
+  case class _Put() extends Action[Any]
+
+  case class _Delete() extends Action[Any]
+
+  case class _To(uri: String, scene: CustomScene) extends Action[Any]
+
+  case class _RunScenario(scenario:ScenarioBuilder) extends Action[Any]
+
+  case class _WithBody(body: String, requestInfo: SceneType) extends Action[Any]
+
 
 }

@@ -1,6 +1,9 @@
 package com.politrons.dsl
 
 
+import com.politrons.com.politrons.scene.CustomScene
+import io.gatling.core.structure.ScenarioBuilder
+
 import scalaz.Free._
 import scalaz._
 
@@ -12,29 +15,21 @@ import scalaz._
   */
 trait Actions extends Algebras {
 
-    def Performance: ActionMonad[Any] = {
-      liftF[Action, Any](_Get())
+  implicit class customFree(free: ActionMonad[Any]) {
+
+    def to(uri: String): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_To(uri, any.asInstanceOf[CustomScene])))
     }
 
-  implicit class customFree(free: ActionMonad[Any]) {
-    ////
-    ////    def Request: ActionMonad[Any] = {
-    ////      free.flatMap(any => liftF[Action, Any](_Request(any.asInstanceOf[Method])))
-    ////    }
-    //
-    //    def to(uri: String): ActionMonad[Any] = {
-    //      free.flatMap(any => liftF[Action, Any](_To(uri, any.asInstanceOf[Method])))
-    //    }
-    //
-    //    def resultAsString: ActionMonad[Any] = {
-    //      free.flatMap(any => liftF[Action, Any](_Result(any.asInstanceOf[RequestInfo])))
-    //    }
-    //
-    //    def isStatus(code:Int): ActionMonad[Any] = {
-    //      free.flatMap(any => liftF[Action, Any](_isStatus(code,any.asInstanceOf[RequestInfo])))
-    //    }
+    def withBody(body: String): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_To(body, any.asInstanceOf[CustomScene])))
+    }
 
-    def get: Id[Any] = free.foldMap(interpreter)
+    def ~> : ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_RunScenario(any.asInstanceOf[ScenarioBuilder])))
+    }
+
+    def :: : Id[Any] = free.foldMap(interpreter)
   }
 
   def interpreter: Action ~> Id

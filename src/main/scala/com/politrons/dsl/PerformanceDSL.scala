@@ -1,11 +1,13 @@
 package com.politrons.dsl
 
+import com.politrons.com.politrons.scene.{CustomScene, GetScene, _}
 import com.politrons.gatling.HttpClient
 import io.gatling.core.Predef.{global, nothingFor, rampUsers, _}
 import io.gatling.core.scenario.Simulation
 import io.gatling.core.structure.ScenarioBuilder
 
 import scala.concurrent.duration._
+import scalaz.Free.liftF
 import scalaz.~>
 
 /**
@@ -19,20 +21,54 @@ import scalaz.~>
   * The implementation of this DSL is using the interpreter scenario which apply the logic of the DSL.
   * That interpreter must be implemented by the consumer of the DSL.
   */
-class PerformanceDSL extends Simulation with Actions {
+trait PerformanceDSL extends Simulation with Actions {
+
+  def Get: ActionMonad[Any] = {
+    liftF[Action, Any](_Get())
+  }
+
+  def Post: ActionMonad[Any] = {
+    liftF[Action, Any](_Post())
+  }
+
+  def Put: ActionMonad[Any] = {
+    liftF[Action, Any](_Put())
+  }
+
+  def Delete: ActionMonad[Any] = {
+    liftF[Action, Any](_Delete())
+  }
 
   override def interpreter: Action ~> Id = new (Action ~> Id) {
     def apply[A](a: Action[A]): Id[A] = a match {
-      case _Get() => setUpScenario(); null
+      case _Get() => new GetScene("GetScenario")
+      case _Post() => new PostScene("PostScenario")
+      case _Put() => new PutScene("PutScenario")
+      case _Delete() => new DeleteScene("DeleteScenario")
+      case _To(uri, scene) => processUri(uri, scene)
+      case _WithBody(body, sceneType) => createScenarioWithBody(body, sceneType)
+      case _RunScenario(scenario) => runScenario(scenario); "Done"
       case _ => throw new IllegalArgumentException("No action allowed by the DSL")
     }
   }
 
-  def setUpScenario(): Unit = {
+  private def processUri[A](uri: String, scene: CustomScene): Any = {
+    scene match {
+      case _: GetScene => scene.create(uri)
+      case _ => new SceneType(uri, scene)
+    }
+  }
+
+  private def createScenarioWithBody[A](body: String, sceneType: (String, CustomScene)): ScenarioBuilder = {
+    sceneType.scene.create(sceneType.uri, body)
+  }
+
+  def runScenario(scenario: ScenarioBuilder): Unit = {
+    setUpScenario(scenario)
+  }
+
+  def setUpScenario(scn: ScenarioBuilder): Unit = {
     val numberUsers: Int = 30
-
-    val scn: ScenarioBuilder = new MockScene("MockScenario").create()
-
     setUp(
       scn.inject(nothingFor(1.seconds), rampUsers(numberUsers) over Duration(10, SECONDS)))
       .protocols(HttpClient.conf)
@@ -42,6 +78,15 @@ class PerformanceDSL extends Simulation with Actions {
       .assertions(global.responseTime.percentile3.lessThan(500))
       .assertions(global.responseTime.percentile4.lessThan(2000))
   }
+
+  implicit class customSceneType(sceneType: SceneType) {
+
+    def uri = sceneType._1
+
+    def scene = sceneType._2
+
+  }
+
 }
 
 
