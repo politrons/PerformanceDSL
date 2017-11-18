@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: io.gatling:jsonpath_2.11:0.6.7:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.gatling/jsonpath_2.11/jars/jsonpath_2.11-0.6.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.gatling/jsonpath_2.11/srcs/jsonpath_2.11-0.6.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

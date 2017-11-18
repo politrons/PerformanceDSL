@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SBT: io.gatling:gatling-app:2.2.2:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.gatling/gatling-app/jars/gatling-app-2.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.gatling/gatling-app/srcs/gatling-app-2.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
