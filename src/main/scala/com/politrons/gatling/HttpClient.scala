@@ -4,20 +4,21 @@ import java.util.Properties
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
+import io.gatling.http.protocol.HttpProtocolBuilder
 
 
 object HttpClient {
+
+  var headers: Map[String, String] = Map()
 
   val properties = new Properties() {
     put("contentType", "application/json; charset=UTF-8")
   }
 
-//  implicit val getHeaders: Map[String, String] = HttpClient.headers
-
-  val conf = http
+  lazy val conf: HttpProtocolBuilder = http
     .maxConnectionsPerHost(100000)
-//    .baseURL(Config.host)
-//    .headers(HttpClient.getHeaders(properties))
+    //    .baseURL(Config.host)
+    .headers(headers)
     .acceptHeader("application/json")
 
 }

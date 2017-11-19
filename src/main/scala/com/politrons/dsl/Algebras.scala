@@ -20,7 +20,9 @@ trait Algebras {
 
   type ActionMonad[A] = Free[Action, A]
 
-  type SceneType = (String, CustomScene)
+  type SceneInfo = (String, CustomScene)
+
+  type SimulationInfo = (ScenarioInfo, ScenarioBuilder)
 
   case class _Get() extends Action[Any]
 
@@ -32,9 +34,20 @@ trait Algebras {
 
   case class _To(uri: String, scene: CustomScene) extends Action[Any]
 
-  case class _RunScenario(scenario:ScenarioBuilder) extends Action[Any]
+  case class _WithBody(body: String, sceneType: SceneInfo) extends Action[Any]
 
-  case class _WithBody(body: String, requestInfo: SceneType) extends Action[Any]
+  case class _WithUsers(number: Int, sceneType: SceneInfo) extends Action[Any]
+
+  case class _RunScenario(simulationInfo: SimulationInfo) extends Action[Any]
+
+  case class ScenarioInfo(numberUsers: Int = 10,
+                          duration: Int=10,
+                          maxResponseTime: Int = 1000,
+                          meanResponseTime: Int = 150,
+                          percentile1: Int = 100,
+                          percentile2: Int = 200,
+                          percentile3: Int = 500,
+                          percentile4: Int = 2000)
 
 
 }

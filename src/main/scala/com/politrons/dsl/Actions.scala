@@ -2,7 +2,6 @@ package com.politrons.dsl
 
 
 import com.politrons.com.politrons.scene.CustomScene
-import io.gatling.core.structure.ScenarioBuilder
 
 import scalaz.Free._
 import scalaz._
@@ -22,11 +21,15 @@ trait Actions extends Algebras {
     }
 
     def withBody(body: String): ActionMonad[Any] = {
-      free.flatMap(any => liftF[Action, Any](_To(body, any.asInstanceOf[CustomScene])))
+      free.flatMap(any => liftF[Action, Any](_WithBody(body, any.asInstanceOf[SceneInfo])))
+    }
+
+    def withUsers(number: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_WithUsers(number, any.asInstanceOf[SceneInfo])))
     }
 
     def ~> : ActionMonad[Any] = {
-      free.flatMap(any => liftF[Action, Any](_RunScenario(any.asInstanceOf[ScenarioBuilder])))
+      free.flatMap(any => liftF[Action, Any](_RunScenario(any.asInstanceOf[SimulationInfo])))
     }
 
     def :: : Id[Any] = free.foldMap(interpreter)

@@ -46,40 +46,42 @@ trait PerformanceDSL extends Simulation with Actions {
       case _Put() => new PutScene("PutScenario")
       case _Delete() => new DeleteScene("DeleteScenario")
       case _To(uri, scene) => processUri(uri, scene)
-      case _WithBody(body, sceneType) => createScenarioWithBody(body, sceneType)
-      case _RunScenario(scenario) => runScenario(scenario); "Done"
+      case _WithBody(body, sceneType) => createSimulationWithBody(body, sceneType)
+      //      case _WithUsers(number, sceneType) => createScenarioWithBody(body, sceneType)
+      case _RunScenario(simulationInfo) => runScenario(simulationInfo); "Done"
       case _ => throw new IllegalArgumentException("No action allowed by the DSL")
     }
   }
 
   private def processUri[A](uri: String, scene: CustomScene): Any = {
     scene match {
-      case _: GetScene => scene.create(uri)
-      case _ => new SceneType(uri, scene)
+      case _: GetScene => new SimulationInfo(ScenarioInfo(), scene.create(uri))
+      case _ => new SceneInfo(uri, scene)
     }
   }
 
-  private def createScenarioWithBody[A](body: String, sceneType: (String, CustomScene)): ScenarioBuilder = {
-    sceneType.scene.create(sceneType.uri, body)
+  private def createSimulationWithBody[A](body: String, sceneInfo: (String, CustomScene)): SimulationInfo = {
+    new SimulationInfo(ScenarioInfo(), sceneInfo.scene.create(sceneInfo.uri, body))
   }
 
-  def runScenario(scenario: ScenarioBuilder): Unit = {
-    setUpScenario(scenario)
+  def runScenario(simulationInfo: SimulationInfo): Unit = {
+    setUpScenario(simulationInfo._1, simulationInfo._2)
   }
 
-  def setUpScenario(scn: ScenarioBuilder): Unit = {
-    val numberUsers: Int = 30
+  def setUpScenario(scenario: ScenarioInfo, scn: ScenarioBuilder): Unit = {
     setUp(
-      scn.inject(nothingFor(1.seconds), rampUsers(numberUsers) over Duration(10, SECONDS)))
+      scn.inject(nothingFor(1.seconds), rampUsers(scenario.numberUsers) over Duration(10, SECONDS)))
       .protocols(HttpClient.conf)
       .assertions(global.successfulRequests.perMillion.is(1000000))
-      .assertions(global.responseTime.max.lessThan(5000))
-      .assertions(global.responseTime.mean.lessThan(100))
-      .assertions(global.responseTime.percentile3.lessThan(500))
-      .assertions(global.responseTime.percentile4.lessThan(2000))
+      .assertions(global.responseTime.max.lessThan(scenario.maxResponseTime))
+      .assertions(global.responseTime.mean.lessThan(scenario.meanResponseTime))
+      .assertions(global.responseTime.percentile1.lessThan(scenario.percentile1))
+      .assertions(global.responseTime.percentile2.lessThan(scenario.percentile2))
+      .assertions(global.responseTime.percentile3.lessThan(scenario.percentile3))
+      .assertions(global.responseTime.percentile4.lessThan(scenario.percentile4))
   }
 
-  implicit class customSceneType(sceneType: SceneType) {
+  implicit class customSceneType(sceneType: SceneInfo) {
 
     def uri = sceneType._1
 
