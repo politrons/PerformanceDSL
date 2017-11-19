@@ -36,18 +36,27 @@ trait Algebras {
 
   case class _WithBody(body: String, sceneType: SceneInfo) extends Action[Any]
 
-  case class _WithUsers(number: Int, sceneType: SceneInfo) extends Action[Any]
+  case class _WithUsers(number: Int, simulationInfo: SimulationInfo) extends Action[Any]
 
   case class _RunScenario(simulationInfo: SimulationInfo) extends Action[Any]
 
   case class ScenarioInfo(numberUsers: Int = 10,
-                          duration: Int=10,
+                          duration: Int = 10,
                           maxResponseTime: Int = 1000,
                           meanResponseTime: Int = 150,
-                          percentile1: Int = 100,
-                          percentile2: Int = 200,
+                          percentile1: Int = 300,
+                          percentile2: Int = 400,
                           percentile3: Int = 500,
                           percentile4: Int = 2000)
 
+  implicit class customSceneInfo(sceneType: SceneInfo) {
+    def uri = sceneType._1
+    def scene = sceneType._2
+  }
+
+  implicit class customSimulationInfo(simulation: SimulationInfo) {
+    def scenarioInfo = simulation._1
+    def scenarioBuilder = simulation._2
+  }
 
 }

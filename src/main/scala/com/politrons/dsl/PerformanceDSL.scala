@@ -47,7 +47,7 @@ trait PerformanceDSL extends Simulation with Actions {
       case _Delete() => new DeleteScene("DeleteScenario")
       case _To(uri, scene) => processUri(uri, scene)
       case _WithBody(body, sceneType) => createSimulationWithBody(body, sceneType)
-      //      case _WithUsers(number, sceneType) => createScenarioWithBody(body, sceneType)
+      case _WithUsers(number, simulationInfo) => updateSimulationWithUsers(number, simulationInfo)
       case _RunScenario(simulationInfo) => runScenario(simulationInfo); "Done"
       case _ => throw new IllegalArgumentException("No action allowed by the DSL")
     }
@@ -62,6 +62,11 @@ trait PerformanceDSL extends Simulation with Actions {
 
   private def createSimulationWithBody[A](body: String, sceneInfo: (String, CustomScene)): SimulationInfo = {
     new SimulationInfo(ScenarioInfo(), sceneInfo.scene.create(sceneInfo.uri, body))
+  }
+
+  private def updateSimulationWithUsers[A](number: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(numberUsers = number)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
   }
 
   def runScenario(simulationInfo: SimulationInfo): Unit = {
@@ -81,13 +86,6 @@ trait PerformanceDSL extends Simulation with Actions {
       .assertions(global.responseTime.percentile4.lessThan(scenario.percentile4))
   }
 
-  implicit class customSceneType(sceneType: SceneInfo) {
-
-    def uri = sceneType._1
-
-    def scene = sceneType._2
-
-  }
 
 }
 
