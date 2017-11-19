@@ -49,6 +49,12 @@ trait PerformanceDSL extends Simulation with Actions {
       case _WithBody(body, sceneType) => createSimulationWithBody(body, sceneType)
       case _WithUsers(number, simulationInfo) => updateSimulationWithUsers(number, simulationInfo)
       case _WithDuration(number, simulationInfo) => updateSimulationWithDuration(number, simulationInfo)
+      case _MaxTime(time, simulationInfo) => updateSimulationMaxTime(time, simulationInfo)
+      case _MeanTime(time, simulationInfo) => updateSimulationMeanTime(time, simulationInfo)
+      case _Percentile1(time, simulationInfo) => updateSimulationPercentile1(time, simulationInfo)
+      case _Percentile2(time, simulationInfo) => updateSimulationPercentile2(time, simulationInfo)
+      case _Percentile3(time, simulationInfo) => updateSimulationPercentile3(time, simulationInfo)
+      case _Percentile4(time, simulationInfo) => updateSimulationPercentile4(time, simulationInfo)
       case _RunScenario(simulationInfo) => runScenario(simulationInfo); "Done"
       case _ => throw new IllegalArgumentException("No action allowed by the DSL")
     }
@@ -72,6 +78,36 @@ trait PerformanceDSL extends Simulation with Actions {
 
   private def updateSimulationWithDuration[A](number: Int, simulationInfo: SimulationInfo): SimulationInfo = {
     val newSimulationInfo = simulationInfo.scenarioInfo.copy(duration = number)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
+  }
+
+  private def updateSimulationMaxTime[A](time: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(maxResponseTime = time)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
+  }
+
+  private def updateSimulationMeanTime[A](time: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(meanResponseTime = time)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
+  }
+
+  private def updateSimulationPercentile1[A](time: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(percentile1 = time)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
+  }
+
+  private def updateSimulationPercentile2[A](time: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(percentile2 = time)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
+  }
+
+  private def updateSimulationPercentile3[A](time: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(percentile3 = time)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
+  }
+
+  private def updateSimulationPercentile4[A](time: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(percentile4 = time)
     new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
   }
 

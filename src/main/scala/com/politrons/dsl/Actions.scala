@@ -32,6 +32,30 @@ trait Actions extends Algebras {
       free.flatMap(any => liftF[Action, Any](_WithDuration(number, any.asInstanceOf[SimulationInfo])))
     }
 
+    def maxTime(time: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_MaxTime(time, any.asInstanceOf[SimulationInfo])))
+    }
+
+    def meanTime(time: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_MeanTime(time, any.asInstanceOf[SimulationInfo])))
+    }
+
+    def percentile1(time: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_Percentile1(time, any.asInstanceOf[SimulationInfo])))
+    }
+
+    def percentile2(time: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_Percentile2(time, any.asInstanceOf[SimulationInfo])))
+    }
+
+    def percentile3(time: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_Percentile3(time, any.asInstanceOf[SimulationInfo])))
+    }
+
+    def percentile4(time: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_Percentile4(time, any.asInstanceOf[SimulationInfo])))
+    }
+
     def ~> : ActionMonad[Any] = {
       free.flatMap(any => liftF[Action, Any](_RunScenario(any.asInstanceOf[SimulationInfo])))
     }

@@ -40,6 +40,18 @@ trait Algebras {
 
   case class _WithDuration(number: Int, simulationInfo: SimulationInfo) extends Action[Any]
 
+  case class _MaxTime(time: Int, simulationInfo: SimulationInfo) extends Action[Any]
+
+  case class _MeanTime(time: Int, simulationInfo: SimulationInfo) extends Action[Any]
+
+  case class _Percentile1(time: Int, simulationInfo: SimulationInfo) extends Action[Any]
+
+  case class _Percentile2(time: Int, simulationInfo: SimulationInfo) extends Action[Any]
+
+  case class _Percentile3(time: Int, simulationInfo: SimulationInfo) extends Action[Any]
+
+  case class _Percentile4(time: Int, simulationInfo: SimulationInfo) extends Action[Any]
+
   case class _RunScenario(simulationInfo: SimulationInfo) extends Action[Any]
 
   case class ScenarioInfo(numberUsers: Int = 10,
