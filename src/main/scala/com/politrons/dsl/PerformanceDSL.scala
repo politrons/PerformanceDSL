@@ -48,6 +48,7 @@ trait PerformanceDSL extends Simulation with Actions {
       case _To(uri, scene) => processUri(uri, scene)
       case _WithBody(body, sceneType) => createSimulationWithBody(body, sceneType)
       case _WithUsers(number, simulationInfo) => updateSimulationWithUsers(number, simulationInfo)
+      case _WithDuration(number, simulationInfo) => updateSimulationWithDuration(number, simulationInfo)
       case _RunScenario(simulationInfo) => runScenario(simulationInfo); "Done"
       case _ => throw new IllegalArgumentException("No action allowed by the DSL")
     }
@@ -69,13 +70,18 @@ trait PerformanceDSL extends Simulation with Actions {
     new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
   }
 
-  def runScenario(simulationInfo: SimulationInfo): Unit = {
+  private def updateSimulationWithDuration[A](number: Int, simulationInfo: SimulationInfo): SimulationInfo = {
+    val newSimulationInfo = simulationInfo.scenarioInfo.copy(duration = number)
+    new SimulationInfo(newSimulationInfo, simulationInfo.scenarioBuilder)
+  }
+
+  private def runScenario(simulationInfo: SimulationInfo): Unit = {
     setUpScenario(simulationInfo._1, simulationInfo._2)
   }
 
-  def setUpScenario(scenario: ScenarioInfo, scn: ScenarioBuilder): Unit = {
+  private def setUpScenario(scenario: ScenarioInfo, scn: ScenarioBuilder): Unit = {
     setUp(
-      scn.inject(nothingFor(1.seconds), rampUsers(scenario.numberUsers) over Duration(10, SECONDS)))
+      scn.inject(nothingFor(1.seconds), rampUsers(scenario.numberUsers) over Duration(scenario.duration, SECONDS)))
       .protocols(HttpClient.conf)
       .assertions(global.successfulRequests.perMillion.is(1000000))
       .assertions(global.responseTime.max.lessThan(scenario.maxResponseTime))

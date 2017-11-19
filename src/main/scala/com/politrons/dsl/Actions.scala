@@ -28,6 +28,10 @@ trait Actions extends Algebras {
       free.flatMap(any => liftF[Action, Any](_WithUsers(number, any.asInstanceOf[SimulationInfo])))
     }
 
+    def withDuration(number: Int): ActionMonad[Any] = {
+      free.flatMap(any => liftF[Action, Any](_WithDuration(number, any.asInstanceOf[SimulationInfo])))
+    }
+
     def ~> : ActionMonad[Any] = {
       free.flatMap(any => liftF[Action, Any](_RunScenario(any.asInstanceOf[SimulationInfo])))
     }

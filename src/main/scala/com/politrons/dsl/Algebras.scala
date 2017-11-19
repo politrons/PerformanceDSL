@@ -38,6 +38,8 @@ trait Algebras {
 
   case class _WithUsers(number: Int, simulationInfo: SimulationInfo) extends Action[Any]
 
+  case class _WithDuration(number: Int, simulationInfo: SimulationInfo) extends Action[Any]
+
   case class _RunScenario(simulationInfo: SimulationInfo) extends Action[Any]
 
   case class ScenarioInfo(numberUsers: Int = 10,

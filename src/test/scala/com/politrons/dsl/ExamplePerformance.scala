@@ -7,6 +7,7 @@ class ExamplePerformance extends PerformanceDSL {
 
   Get.to("http://www.google.com")
     .withUsers(30)
+    .withDuration(60)
     .~> ::
 
 }
