@@ -5,13 +5,14 @@ import com.politrons.mock.HttpMockServer
 /**
   * Created by pabloperezgarcia on 18/11/2017.
   */
-class GetPerformanceTest extends PerformanceDSL {
+class DeletePerformanceTest extends PerformanceDSL {
 
   HttpMockServer.initializeService
 
-  Get.to("http://localhost:8080/test")
+  Delete.to("http://localhost:8080/test")
+    .withBody("body")
     .withUsers(30)
-    .withDuration(60)
+    .withDuration(10)
     .maxTime(1000)
     .meanTime(150)
     .percentile1(300)

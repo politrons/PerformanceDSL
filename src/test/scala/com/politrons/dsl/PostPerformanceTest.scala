@@ -1,11 +1,15 @@
 package com.politrons.dsl
 
+import com.politrons.mock.HttpMockServer
+
 /**
   * Created by pabloperezgarcia on 18/11/2017.
   */
 class PostPerformanceTest extends PerformanceDSL {
 
-  Post.to("http://www.google.com")
+  HttpMockServer.initializeService
+
+  Post.to("http://localhost:8080/test")
     .withBody("body")
     .withUsers(30)
     .withDuration(10)
