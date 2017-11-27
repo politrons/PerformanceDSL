@@ -39,17 +39,6 @@ object HttpMockServer {
   }
 
   /**
-    * Trigger unbinding from the port and shutdown when done
-    *
-    * @param bindingFuture
-    */
-  private def shutdownService(bindingFuture: Future[ServerBinding]) = {
-    bindingFuture
-      .flatMap(_.unbind())
-      .onComplete(_ ⇒ system.terminate())
-  }
-
-  /**
     * Akka http provide a dsl to create the endpoints for the rest service
     * The ~ character pass the request form one route to the next one in the chain.
     */
