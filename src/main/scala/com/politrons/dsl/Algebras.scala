@@ -34,7 +34,7 @@ trait Algebras {
 
   case class _To(uri: String, scene: CustomScene) extends Action[Any]
 
-  case class _WithBody(body: String, sceneType: SceneInfo) extends Action[Any]
+  case class _WithBody(body: String, sceneInfo: SceneInfo) extends Action[Any]
 
   case class _WithUsers(number: Int, simulationInfo: SimulationInfo) extends Action[Any]
 

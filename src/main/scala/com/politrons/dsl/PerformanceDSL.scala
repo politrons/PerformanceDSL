@@ -71,35 +71,35 @@ trait PerformanceDSL extends Simulation with Actions {
     new SimulationInfo(ScenarioInfo(), sceneInfo.scene.create(sceneInfo.uri, body))
   }
 
-  private def updateSimulationWithUsers(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationWithUsers: (Int, SimulationInfo) => ScenarioInfo = {
     (number, simulationInfo) => simulationInfo.scenarioInfo.copy(numberUsers = number)
   }
 
-  private def updateSimulationWithDuration(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationWithDuration: (Int, SimulationInfo) => ScenarioInfo = {
     (time, simulationInfo) => simulationInfo.scenarioInfo.copy(duration = time)
   }
 
-  private def updateSimulationMaxTime(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationMaxTime: (Int, SimulationInfo) => ScenarioInfo = {
     (time, simulationInfo) => simulationInfo.scenarioInfo.copy(maxResponseTime = time)
   }
 
-  private def updateSimulationMeanTime(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationMeanTime: (Int, SimulationInfo) => ScenarioInfo = {
     (time, simulationInfo) => simulationInfo.scenarioInfo.copy(meanResponseTime = time)
   }
 
-  private def updateSimulationPercentile1(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationPercentile1: (Int, SimulationInfo) => ScenarioInfo = {
     (time, simulationInfo) => simulationInfo.scenarioInfo.copy(percentile1 = time)
   }
 
-  private def updateSimulationPercentile2(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationPercentile2: (Int, SimulationInfo) => ScenarioInfo = {
     (time, simulationInfo) => simulationInfo.scenarioInfo.copy(percentile2 = time)
   }
 
-  private def updateSimulationPercentile3(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationPercentile3: (Int, SimulationInfo) => ScenarioInfo = {
     (time, simulationInfo) => simulationInfo.scenarioInfo.copy(percentile3 = time)
   }
 
-  private def updateSimulationPercentile4(): (Int, SimulationInfo) => ScenarioInfo = {
+  private def updateSimulationPercentile4: (Int, SimulationInfo) => ScenarioInfo = {
     (time, simulationInfo) => simulationInfo.scenarioInfo.copy(percentile4 = time)
   }
 

@@ -17,7 +17,6 @@ object HttpClient {
 
   lazy val conf: HttpProtocolBuilder = http
     .maxConnectionsPerHost(100000)
-    //    .baseURL(Config.host)
     .headers(headers)
     .acceptHeader("application/json")
 

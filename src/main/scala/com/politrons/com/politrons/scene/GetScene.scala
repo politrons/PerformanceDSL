@@ -8,7 +8,6 @@ import scala.concurrent.duration._
 
 class GetScene(name: String) extends CustomScene{
 
-
   def create(uri: String, body:String=""): ScenarioBuilder = {
     scenario(name)
       .exec(http("custom scene")
