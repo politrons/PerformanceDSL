@@ -90,7 +90,7 @@ Using the DSL we can structure our gatling performance tests.
     .~> ::
 ```
 
-* Delete endpoint
+* Delete
 
 ```
   Delete.to("http://localhost:8080/test")
