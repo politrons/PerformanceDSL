@@ -15,7 +15,7 @@ https://github.com/politrons/PerformanceDSL
 ```
 * Run the test example
 ```
-sbt test
+sbt gatling:test
 
 ```
 * Create jar
@@ -23,10 +23,13 @@ sbt test
 sbt package
 
 ```
-* Add jar in your project dependency and use object factory HttpClientDSL
+* Add jar in your project dependency
 ```
-target/scala-2.11/httpclientdsl_2.11-1.0.jar
-
+target/scala-2.11/performancedsl_2.11-1.0.jar
+```
+* Make your performance test extends PerformanceDSL in order to use the DSL
+```
+class GetPerformanceTest extends PerformanceDSL {}
 ```
 
 ## Create your Performance tests
