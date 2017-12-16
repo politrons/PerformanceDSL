@@ -4,7 +4,7 @@ Author  Pablo Perez Garcia
 
 An open souce library that provide a Performance DSL based on [Gatling](https://gatling.io/).
 
-It´s using also[Free monads](http://eed3si9n.com/learning-scalaz/Free+Monad.html) of [ScalaZ](https://github.com/scalaz/scalaz).
+It´s also using [Free monads](http://eed3si9n.com/learning-scalaz/Free+Monad.html) of [ScalaZ](https://github.com/scalaz/scalaz).
 
 ## Use
 
