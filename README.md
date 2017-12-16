@@ -37,6 +37,8 @@ class GetPerformanceTest extends PerformanceDSL {}
 Using the DSL we can structure our gatling performance tests.
 
 * We can create a gatling [sumulation](https://gatling.io/docs/2.3/general/simulation_structure/).
+* Create the Method type of you endpoint `Get, Post, Put and Delete`.
+* Specify the URL of your endpoint with operator `to.
 * For the execution we can provide the number of request(Users) in a perdiod of time(duration).
 * For the metrics we can check max, mean, 50, 75, 95 and 99 percentile times.
 
