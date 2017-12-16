@@ -36,9 +36,9 @@ class GetPerformanceTest extends PerformanceDSL {}
 
 Using the DSL we can structure our gatling performance tests.
 
-* We can create a gatling sumulation.
-* For the execution we can provide the number of request(Users) in a perdiod of time
-* For the metrics we cab check max time, mean time, and 50, 75, 95 and 99 percentile
+* We can create a gatling [sumulation](https://gatling.io/docs/2.3/general/simulation_structure/).
+* For the execution we can provide the number of request(Users) in a perdiod of time(duration).
+* For the metrics we can check max, mean, 50, 75, 95 and 99 percentile times.
 
 ### Performance DSL Examples
 
