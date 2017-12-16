@@ -1,7 +1,6 @@
 Author  Pablo Perez Garcia
 
-![My image](src/main/resources/img/http-icon.png) ![My image](src/main/resources/img/Gatling-logo.png)
-
+![My image](src/main/resources/img/Gatling-logo.png)
 
 An open souce library that provide a Http client DSL based on [Free monads](http://eed3si9n.com/learning-scalaz/Free+Monad.html) of [ScalaZ](https://github.com/scalaz/scalaz).
 It´s using also [Gatling](https://gatling.io/) framework to provide the performance test engine.
