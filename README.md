@@ -27,6 +27,13 @@ sbt package
 ```
 target/scala-2.11/performancedsl_2.11-1.0.jar
 ```
+* If you have a SBT project add the gatling plugin in your  plugins.sbt file
+
+```
+addSbtPlugin("io.gatling" % "gatling-sbt" % "2.2.0")
+
+```
+
 * Make your performance test extends PerformanceDSL in order to use the DSL
 ```
 class GetPerformanceTest extends PerformanceDSL {}
