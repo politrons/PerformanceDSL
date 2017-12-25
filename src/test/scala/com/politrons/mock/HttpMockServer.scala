@@ -27,12 +27,14 @@ object HttpMockServer {
   val port = 8080
   var order = Map[String, String]()
 
+  var values = List[String]()
+
   /**
     * Akka http provide the bindAndHandler which allow you to bind using a dsl some endpoints in a specific address/port
     *
     */
   def initializeService = {
-    if(serverFuture.isEmpty){
+    if (serverFuture.isEmpty) {
       serverFuture = Some(Http().bindAndHandle(routes, localhost, port))
       serverFuture.get.onComplete(_ => println(s"Server online at http://$localhost:$port/\nPress RETURN to stop..."))
     }
@@ -47,12 +49,26 @@ object HttpMockServer {
       get {
         complete(getVersionResponse)
       } ~ post {
-        complete(getVersionResponse)
+        entity(as[String]) { value =>
+          checkOldValues(value)
+          complete(getVersionResponse)
+        }
       } ~ put {
-        complete(getVersionResponse)
+        entity(as[String]) { value =>
+          checkOldValues(value)
+          complete(getVersionResponse)
+        }
       } ~ delete {
         complete(getVersionResponse)
       }
+    }
+  }
+
+  private def checkOldValues(reqValue: String) = {
+    if (values.contains(reqValue)) {
+      throw new Exception("**************************  Element already processed ********************")
+    } else {
+      values = values ++ List(reqValue)
     }
   }
 

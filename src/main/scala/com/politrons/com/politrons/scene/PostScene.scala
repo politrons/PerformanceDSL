@@ -10,9 +10,10 @@ class PostScene(name: String) extends CustomScene {
 
   def create(uri: String, body: String): ScenarioBuilder = {
     scenario(name)
+      .feed(msgId)
       .exec(http("custom scene")
         .post(uri)
-        .body(StringBody(body))
+        .body(StringBody(body.replace("ID", "${msgId}")))
         .check(status.is(200)))
       .pause(Duration(1, SECONDS))
   }

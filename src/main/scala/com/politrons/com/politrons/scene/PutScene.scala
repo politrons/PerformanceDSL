@@ -11,9 +11,10 @@ class PutScene(name: String) extends CustomScene {
 
   def create(uri: String, body:String): ScenarioBuilder = {
     scenario(name)
+      .feed(msgId)
       .exec(http("custom scene")
-        .put(uri)
-        .body(StringBody(body))
+        .post(uri)
+        .body(StringBody(body.replace("ID", "${msgId}")))
         .check(status.is(200)))
       .pause(Duration(1, SECONDS))
   }

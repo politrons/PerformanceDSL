@@ -10,7 +10,7 @@ class PostPerformanceTest extends PerformanceDSL {
   HttpMockServer.initializeService
 
   Post.to("http://localhost:8080/test")
-    .withBody("body")
+    .withBody("identify ID")
     .withUsers(30)
     .withDuration(10)
     .maxTime(1000)

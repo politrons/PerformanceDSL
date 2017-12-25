@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: io.advantageous.boon:boon-json:0.6.2:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.advantageous.boon/boon-json/jars/boon-json-0.6.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.advantageous.boon/boon-json/srcs/boon-json-0.6.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
