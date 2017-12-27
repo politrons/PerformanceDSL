@@ -49,12 +49,13 @@ object HttpMockServer {
       get {
         complete(getVersionResponse)
       } ~ post {
-        entity(as[String]) { value =>
+        headerValueByName("msgId") { value =>
           checkOldValues(value)
           complete(getVersionResponse)
+
         }
       } ~ put {
-        entity(as[String]) { value =>
+        headerValueByName("msgId") { value =>
           checkOldValues(value)
           complete(getVersionResponse)
         }
